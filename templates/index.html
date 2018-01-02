@@ -55,7 +55,8 @@
 		            usrName: userName,
 		            usrInput: userInput
 		        })
-		        
+            // Clear input field after submut
+            $( 'input#userMessage' ).val( '' ).focus()
 		    })
 		})
     
