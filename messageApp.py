@@ -15,8 +15,12 @@ def messageRecived():
 
 @socketio.on('event')
 def handleEvent(json):
-  print( 'recived event: ' + str( json ) )
+  print( 'Recived event: ' + str(json) + '\n')
   socketio.emit( 'response', json, callback=messageRecived )
+
+@socketio.on('disconnect')
+def handleDisconnet():
+    print('Client disconnected\n')
 
 if __name__ == '__main__':
   socketio.run(app, debug = True)

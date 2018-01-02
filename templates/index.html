@@ -4,8 +4,6 @@
 	
   <title>StreamBack-Test</title>
 
-<!-- 	<link rel="stylesheet" type="text/css" href="/style.css">
-	<script type="text/javascript" src="/script.js"></script> -->
 	<!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
     	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -14,37 +12,59 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
 </head>
+
 <body>
-	<h1>Stream Message System</h1>
-
-	<form method="POST">
-	  <div class="form-group">
-	    <label for="userName">User Name:</label>
-	    <input type="text" class="form-control" id="UserName" placeholder="Enter user name">    
-	  </div>
-	  <div class="form-group">
-	    <label for="userMessage">Message:</label>
-	    <input type="text" class="form-control" id="UserMessage" placeholder="Enter message">
-	  </div>
-	  <button type="submit" class="btn btn-primary">Submit</button>
-	</form>
-
+  
+  <div class="col-sm-4">
+    <h1>Stream Pigeon</h1>
+    <form method="POST">
+  	  <div class="form-group">
+  	    <label for="userName">User Name:</label>
+  	    <input type="text" class="form-control" id="userName" placeholder="Enter user name" required>    
+  	  </div>
+  	  <div class="form-group">
+  	    <label for="userMessage">Message:</label>
+  	    <input type="text" class="form-control" id="userMessage" placeholder="Enter message" required>
+  	  </div>
+  	  <button type="submit" class="btn btn-primary">Submit</button>
+  	</form>
+  </div>
+      
+  <div class="container">
+    <div class="col-sm-8">        
+      <div class="chatBox"></div>
+    </div>
+  </div>
 	
 	<script>
 		var socket = io.connect('http://' + document.domain + ':' + location.port)
 
 		socket.on('connect', () => {
 		    socket.emit('event', {
-		        data: 'User Connected'
+		        data: 'A User Connected',
+            client: 'http://' + document.domain + ':' + location.port
+
+		    })
+		    var form = $('form').on('submit', (e) => {
+		        e.preventDefault();
+		        let userName = $('input#userName').val()
+		        let userInput = $('input#userMessage').val()
+		        socket.emit('event', {
+		            usrName: userName,
+		            usrInput: userInput
+		        })
+		        
 		    })
 		})
 
     socket.on('response', (msg) => {
         console.log( msg )
-        if(typeof msg.usrName !== 'undefined') {
-          // $('h1').remove()
-          $('div.message_holder').append('<div class="msg_bbl"><b style="color: #000">'+msg.usrName+'</b> '+msg.usrInput+'</div>')
+        if (typeof msg.usrName !== 'undefined') {
+          $('div.chatBox').append('<div class="chatMsg"><b style="color: #000">'+msg.usrName+'</b> '+msg.usrInput+'</div>')
         }
+    })
+
+    socket.on('disconnect', () => {
     })
 
 	</script>
