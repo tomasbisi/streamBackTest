@@ -35,18 +35,24 @@
       <div class="chatBox"></div>
     </div>
   </div>
+
+  <br>
+  <div class="col-sm-4">
+    <h4>Online Users</h4>
+    <div id="onlineUsers"></div>    
+  </div>
 	
 	<script>
 		var socket = io.connect('http://' + document.domain + ':' + location.port)
 
-    // broadcasting a message / connection request
+    // Connection request / Broadcasting a message
 		socket.on('connect', () => {
 		    socket.emit('event', {
 		        data: 'A User Connected',
             client: 'http://' + document.domain + ':' + location.port
 
 		    })
-        // store user name and message from the input form
+        // Store user name and message from the input form
 		    var form = $('form').on('submit', (e) => {
 		        e.preventDefault();
 		        let userName = $('input#userName').val()
@@ -62,13 +68,14 @@
     
     // POST user's message to the UI
     socket.on('response', (msg) => {
-        console.log( msg )
+        console.log(msg)
         if (typeof msg.usrName !== 'undefined') {
           $('div.chatBox').append('<div class="chatMsg"><b style="color: #000">'+msg.usrName+'</b> '+msg.usrInput+'</div>')
+          $('div#onlineUsers').append('<div class="onlie"><li style="color: green"><b style="color: #000">'+msg.usrName+'</b></li></div>')
         }
     })
 
-    socket.on('disconnect', () => {
+    socket.on('disconnect', (msg) => {
     })
 
 	</script>
