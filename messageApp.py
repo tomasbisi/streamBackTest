@@ -13,14 +13,17 @@ def index():
 def messageRecived():
   print('message delivered')
 
+
+# Bash message with the event created from the client
 @socketio.on('event')
 def handleEvent(json):
-  print( 'Recived event: ' + str(json) + '\n')
+  print( '\nRecived event: ' + str(json) + '\n')
   socketio.emit( 'response', json, callback=messageRecived )
 
+# Message when the client disconects from the server
 @socketio.on('disconnect')
 def handleDisconnet():
-    print('Client disconnected\n')
+    print('\n A user disconnected')
 
 if __name__ == '__main__':
   socketio.run(app, debug = True)
