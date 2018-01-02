@@ -14,7 +14,7 @@
 </head>
 
 <body>
-  
+
   <div class="col-sm-4">
     <h1>Stream Pigeon</h1>
     <form method="POST">
@@ -39,12 +39,14 @@
 	<script>
 		var socket = io.connect('http://' + document.domain + ':' + location.port)
 
+    // broadcasting a message / connection request
 		socket.on('connect', () => {
 		    socket.emit('event', {
 		        data: 'A User Connected',
             client: 'http://' + document.domain + ':' + location.port
 
 		    })
+        // store user name and message from the input form
 		    var form = $('form').on('submit', (e) => {
 		        e.preventDefault();
 		        let userName = $('input#userName').val()
@@ -56,7 +58,8 @@
 		        
 		    })
 		})
-
+    
+    // POST user's message to the UI
     socket.on('response', (msg) => {
         console.log( msg )
         if (typeof msg.usrName !== 'undefined') {
