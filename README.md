@@ -1,4 +1,4 @@
-This Project is a network mesagging application using Flask and SocketIO.
+This Project is a network messaging application using Flask and SocketIO.
 
 ## How to install
 
@@ -16,10 +16,13 @@ git clone https://github.com/tomasbisi/streamBackTest.git
 cd streamBackTest
 ```
 
-This application is running inside a virtual environment using python's virtualvenv. This will allow you install packages inside the environment without affecting the computer's secutiry integrity. If you don't have it installed run :
+This application is running inside a virtual environment using python's virtualvenv. This will allow you to install packages inside the environment without affecting the computer's secutiry integrity. If you don't have it installed run :
 ```
 sudo pip install virtualenv
+```
 
+Then:
+```
 virtualenv venv
 virtualenv --no-site-packages venv
 ```
@@ -29,7 +32,7 @@ Once the virtualenv is installed, setted up and the packages have been added, ru
 source venv/bin/activate
 ```
 
-To install all the dependencies that the project requires to import in order to work run:
+Install all the dependencies that the project requires to import in order to work:
 
 ```
 pip install -r requirements.txt
