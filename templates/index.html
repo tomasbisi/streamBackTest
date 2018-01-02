@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>StreamBack-Test</title>
+	
+  <title>StreamBack-Test</title>
 
 <!-- 	<link rel="stylesheet" type="text/css" href="/style.css">
 	<script type="text/javascript" src="/script.js"></script> -->
@@ -9,7 +10,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
     	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
 </head>
 <body>
 	<h1>Stream Message System</h1>
@@ -26,10 +29,7 @@
 	  <button type="submit" class="btn btn-primary">Submit</button>
 	</form>
 
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+	
 	<script>
 		var socket = io.connect('http://' + document.domain + ':' + location.port)
 
@@ -37,18 +37,15 @@
 		    socket.emit('event', {
 		        data: 'User Connected'
 		    })
-		    var form = $('form').on('submit', function(e) {
-		        e.preventdefault();
-		        let user_name = $('input.userName').val()
-		        let user_input = $('input.userMessage').val()
-		        socket.emit('event', {
-		            userName: user_name,
-		            user_input: user_input
-		        })
-		        $('input.userMessage').val('').focus()
-		    })
 		})
 
+    socket.on('response', (msg) => {
+        console.log( msg )
+        if(typeof msg.usrName !== 'undefined') {
+          // $('h1').remove()
+          $('div.message_holder').append('<div class="msg_bbl"><b style="color: #000">'+msg.usrName+'</b> '+msg.usrInput+'</div>')
+        }
+    })
 
 	</script>
 </body>
