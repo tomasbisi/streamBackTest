@@ -66,12 +66,11 @@
 		        e.preventDefault();
 		        let userName = $('input#userName').val()
 		        let userInput = $('input#userMessage').val()
+            
 		        socket.emit('event', {
 		            usrName: userName,
 		            usrInput: userInput,
-                usrData: user_names.push(userName)
 		        });
-
             // Clear input field after submut
             $('input#userMessage').val('').focus();
 		    });
@@ -91,4 +90,4 @@
 	</script>
 </body>
 
-</html>
+</html> 
