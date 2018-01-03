@@ -13,7 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
 
     <style>
-      div.chatBox {
+      div.msgBox {
         background-color: #ddd;
         border-radius: 10px;
         color: #555;
@@ -65,7 +65,7 @@
 		    var form = $('form').on('submit', (e) => {
 		        e.preventDefault();
 		        let userName = $('input#userName').val()
-		        let userInput = $('input#userMessage').val()
+		        var userInput = $('input#userMessage').val()
             
 		        socket.emit('event', {
 		            usrName: userName,
@@ -74,13 +74,12 @@
             // Clear input field after submut
             $('input#userMessage').val('').focus();
 		    });
-		});
-
+		});      
     // POST user's message to the UI
     socket.on('response', (msg) => {
         console.log(msg);
         if (typeof msg.usrName !== 'undefined') {
-          $('div.chatBox').append('<div class="chatMsg"><b style="color: #000">'+msg.usrName+'</b> '+msg.usrInput+'</div>');
+          $('div.chatBox').append('<div class="msgBox"><b style="color: #000">'+msg.usrName+'</b> '+msg.usrInput+'</div>');
         }
     });
 
