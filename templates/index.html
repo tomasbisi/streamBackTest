@@ -11,6 +11,17 @@
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
+
+    <style>
+      div.chatBox {
+        background-color: #ddd;
+        border-radius: 10px;
+        color: #555;
+        margin-bottom: 5px;
+        padding: 5px 10px;
+      }
+    </style>
+
 </head>
 
 <body>
@@ -20,7 +31,7 @@
     <form method="POST">
   	  <div class="form-group">
   	    <label for="userName">User Name:</label>
-  	    <input type="text" class="form-control" id="userName" placeholder="Enter user name" required>    
+  	    <input type="text" class="form-control" id="userName" placeholder="Enter user name" required>
   	  </div>
   	  <div class="form-group">
   	    <label for="userMessage">Message:</label>
@@ -30,28 +41,26 @@
   	</form>
   </div>
       
+    <br>
+    <br>
   <div class="container">
-    <div class="col-sm-8">        
+    <div class="col-sm-8">
       <div class="chatBox"></div>
     </div>
   </div>
 
-  <br>
-  <div class="col-sm-4">
-    <h4>Online Users</h4>
-    <div id="onlineUsers"></div>    
-  </div>
-	
+
 	<script>
-		var socket = io.connect('http://' + document.domain + ':' + location.port)
+		var socket = io.connect('http://' + document.domain + ':' + location.port);
+
 
     // Connection request / Broadcasting a message
 		socket.on('connect', () => {
 		    socket.emit('event', {
 		        data: 'A User Connected',
             client: 'http://' + document.domain + ':' + location.port
+		    });
 
-		    })
         // Store user name and message from the input form
 		    var form = $('form').on('submit', (e) => {
 		        e.preventDefault();
@@ -59,24 +68,25 @@
 		        let userInput = $('input#userMessage').val()
 		        socket.emit('event', {
 		            usrName: userName,
-		            usrInput: userInput
-		        })
+		            usrInput: userInput,
+                usrData: user_names.push(userName)
+		        });
+
             // Clear input field after submut
-            $( 'input#userMessage' ).val( '' ).focus()
-		    })
-		})
-    
+            $('input#userMessage').val('').focus();
+		    });
+		});
+
     // POST user's message to the UI
     socket.on('response', (msg) => {
-        console.log(msg)
+        console.log(msg);
         if (typeof msg.usrName !== 'undefined') {
-          $('div.chatBox').append('<div class="chatMsg"><b style="color: #000">'+msg.usrName+'</b> '+msg.usrInput+'</div>')
-          $('div#onlineUsers').append('<div class="onlie"><li style="color: green"><b style="color: #000">'+msg.usrName+'</b></li></div>')
+          $('div.chatBox').append('<div class="chatMsg"><b style="color: #000">'+msg.usrName+'</b> '+msg.usrInput+'</div>');
         }
-    })
+    });
 
     socket.on('disconnect', (msg) => {
-    })
+    });
 
 	</script>
 </body>

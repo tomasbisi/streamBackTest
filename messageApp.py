@@ -10,6 +10,7 @@ socketio = SocketIO(app)
 def index():
   return render_template('./index.html')
 
+
 def messageRecived():
   print('message delivered')
 

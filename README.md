@@ -8,6 +8,7 @@ Python: 2.7.10
 Flask: 0.12.2
 Flask-socketio
 Virtualenv
+Jquery: 3.2.1
 ```
 
 On a new Terminal window clone the repository:  
